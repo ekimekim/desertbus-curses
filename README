@@ -1,0 +1,15 @@
+
+Requires python 2.6 or 2.7
+
+Run with ./main.py
+
+Controls are:
+UP: Accelerate
+DOWN: Brake
+LEFT: Steer left
+RIGHT: Steer right
+
+You can fiddle with various settings at the top of main.py.
+
+This version should work, though it lacks features like giving the driver's name.
+If you have any ideas or suggestions, tell me!
