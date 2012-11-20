@@ -21,13 +21,16 @@ ROAD_WIDTH = 20 # Road width in pixels. Must be even.
 TICK_INTERVAL = 0.05 # Minimum tick interval in seconds 
 TRIP_LENGTH = 1152000 # Distance from Tuscon to Las Vegas in pixels. Formula is (trip time in secs * SPEED_MAX / TICK_INTERVAL)
 SPEED_MAX_MPH = 45 # Max speed in miles per hour. Used to get miles-pixels conversion for display.
-BKGD_CHARS = "  .," # Charset to randomise background from. The same character many times increases its chance.
-CRASH_DELAY = 5 # Delay before reset on crash
+BKGD_CHARS = "   .," # Charset to randomise background from. The same character many times increases its chance.
+EVENT_DELAY = 5 # Delay before reset on crash or point.
 
 # Bus ascii art. All lines MUST be equal width.
 BUS_ART = "**" "\n" \
           "!!" "\n" \
           "!!"
+
+# I suggest using this value if you want to see what a point looks like without bussing 8 hours.
+# TRIP_LENGTH = 400
 
 # --- END CONFIG ---
 
@@ -108,7 +111,7 @@ def main(stdscr):
 					stdscr.move(3, scr_mid(stdscr)[1]-4)
 					stdscr.addstr(" CRASHED! ")
 					stdscr.refresh()
-					time.sleep(CRASH_DELAY)
+					time.sleep(EVENT_DELAY)
 					score_crash += 1
 					break
 			else:
@@ -123,8 +126,14 @@ def main(stdscr):
 
 			# Check for dest reached
 			if bus_y >= TRIP_LENGTH:
-				# TODO win
-				raise Exception('Bus reached finish!')
+				# CRASHED!
+				s = " WELCOME TO %s! " % ('TUSCON' if score_points % 2 else 'LAS VEGAS')
+				stdscr.move(3, scr_mid(stdscr)[1]-len(s)/2)
+				stdscr.addstr(s)
+				stdscr.refresh()
+				time.sleep(EVENT_DELAY)
+				score_points += 1
+				break
 
 			# Draw background
 			stdscr.move(0,0)
